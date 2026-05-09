@@ -462,7 +462,7 @@ RunService.RenderStepped:Connect(function()
 
     if hum and root then
 
-        hum.WalkSpeed = _G.SpeedEnabled and _G.SpeedValue or 16
+        hum.WalkSpeed = _G.SpeedEnabled and _G.SpeedValue or 50
 
         if _G.JumpEnabled then
             hum.UseJumpPower = true
