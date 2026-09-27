@@ -1,9 +1,9 @@
 --[[
-    @title:       Scripts HAR Hub PRO (v4.0 Professional)
+    @title:       Scripts HAR Hub PRO
     @author:      Hờ A Rầu
-    @version:     4.0 PRO
-    @description: Professional Tab System - Main / PvP / Setting. Fruit ESP optimized anti-lag.
-    @rework:      Menu System & UI/UX Enhancement
+    @version:     4.0 PRO ADVANCED
+    @description: Tab Main / PvP / Setting. Fruit ESP tối ưu chống lag.
+    @rework:      Advanced Modern UI with Enhanced Features
 ]]--
 
 -- ============================================================
@@ -33,29 +33,23 @@ _G.FruitTweenEnabled   = false
 _G.FruitTweenSpeed     = 120
 
 -- ============================================================
---  3. THEME - PROFESSIONAL DARK MODE
+--  3. THEME - MODERN DARK NEON
 -- ============================================================
 local T = {
-    -- Base
-    BG      = Color3.fromRGB(8,   8,  14),
-    BG2     = Color3.fromRGB(13,  13,  22),
-    PANEL   = Color3.fromRGB(18,  18,  30),
-    
-    -- Primary
-    RED     = Color3.fromRGB(220,  30,  70),
-    RED2    = Color3.fromRGB(255,  80, 110),
-    TAB_ON  = Color3.fromRGB(200,  20,  55),
-    TAB_OFF = Color3.fromRGB(25,   25,  40),
-    
-    -- Text
-    WHITE   = Color3.fromRGB(240, 240, 255),
-    DIM     = Color3.fromRGB(140, 140, 170),
-    
-    -- UI
-    GREEN   = Color3.fromRGB(20,  180, 110),
-    GRAY    = Color3.fromRGB(50,   50,  70),
-    STROKE  = Color3.fromRGB(55,   55,  85),
-    YELLOW  = Color3.fromRGB(255, 200,  50),
+    BG      = Color3.fromRGB(5,   5,  12),
+    BG2     = Color3.fromRGB(10,  10,  18),
+    PANEL   = Color3.fromRGB(15,  15,  28),
+    RED     = Color3.fromRGB(255, 20,  60),
+    RED2    = Color3.fromRGB(255, 100, 140),
+    TAB_ON  = Color3.fromRGB(255, 30,  70),
+    TAB_OFF = Color3.fromRGB(30,  30,  50),
+    WHITE   = Color3.fromRGB(245, 245, 255),
+    DIM     = Color3.fromRGB(120, 130, 160),
+    GREEN   = Color3.fromRGB(50,  220, 130),
+    GRAY    = Color3.fromRGB(60,  60,  80),
+    STROKE  = Color3.fromRGB(80,  80,  120),
+    CYAN    = Color3.fromRGB(0,   200, 255),
+    PURPLE  = Color3.fromRGB(180, 80,  255),
 }
 
 -- ============================================================
@@ -69,7 +63,8 @@ end
 
 local function stroke(p, col, th)
     local s = Instance.new("UIStroke", p)
-    s.Color = col or T.STROKE ; s.Thickness = th or 1
+    s.Color = col or T.STROKE
+    s.Thickness = th or 1
     return s
 end
 
@@ -185,7 +180,7 @@ Players.PlayerAdded:Connect(setupPlayer)
 Players.PlayerRemoving:Connect(removeDot)
 
 -- ============================================================
---  7. LOGIC: FRUIT ESP (OPTIMIZED - ANTI-LAG)
+--  7. LOGIC: FRUIT ESP (OPTIMIZED)
 -- ============================================================
 local MythicalFruits  = {"gravity","mammoth","shadow","t-rex","mochi","venom","gas","control","tiger","kitsune","dragon"}
 local LegendaryFruits = {"quake","buddha","love","spider","phoenix","portal","rumble","pain","blizzard"}
@@ -277,7 +272,7 @@ task.spawn(function()
 end)
 
 -- ============================================================
---  8. LOGIC: FRUIT TWEEN (STABLE)
+--  8. LOGIC: FRUIT TWEEN
 -- ============================================================
 local curFruitTween = nil
 local tweenTarget   = nil
@@ -389,83 +384,72 @@ UserInputService.JumpRequest:Connect(function()
 end)
 
 -- ============================================================
---  10. PROFESSIONAL MENU SYSTEM
+--  10. ADVANCED GUI SYSTEM
 -- ============================================================
-
--- ── Menu Manager ──────────────────────────────────────
-local MenuSystem = {}
-MenuSystem.Tabs = {}
-MenuSystem.ActiveTab = nil
-MenuSystem.MenuState = { Visible = true }
-
--- ── Professional GUI Setup ────────────────────────────
 local gui = Instance.new("ScreenGui", LocalPlayer:WaitForChild("PlayerGui"))
-gui.Name           = "HAR_Hub_Pro_v2"
+gui.Name           = "HAR_Hub_Pro_Advanced"
 gui.ResetOnSpawn   = false
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
--- ── Main Menu Frame ───────────────────────────────────
-local MainMenu = Instance.new("Frame", gui)
-MainMenu.Name             = "MainMenu"
-MainMenu.Size             = UDim2.new(0, 720, 0, 480)
-MainMenu.Position         = UDim2.new(0.5, -360, 0.5, -240)
-MainMenu.BackgroundColor3 = T.BG
-MainMenu.BorderSizePixel  = 0
-MainMenu.ZIndex           = 100
-corner(MainMenu, 16)
-stroke(MainMenu, T.RED, 2)
+-- ========== MAIN WINDOW ==========
+local MainWindow = Instance.new("Frame", gui)
+MainWindow.Name             = "MainWindow"
+MainWindow.Size             = UDim2.new(0, 800, 0, 500)
+MainWindow.Position         = UDim2.new(0.5, -400, 0.5, -250)
+MainWindow.BackgroundColor3 = T.BG
+MainWindow.BorderSizePixel  = 0
+MainWindow.ZIndex           = 100
+corner(MainWindow, 12)
+stroke(MainWindow, T.CYAN, 2)
 
-local mainGrad = Instance.new("UIGradient", MainMenu)
-mainGrad.Color    = ColorSequence.new(T.BG, Color3.fromRGB(10, 8, 20))
-mainGrad.Rotation = 135
+local bgGradient = Instance.new("UIGradient", MainWindow)
+bgGradient.Color    = ColorSequence.new(T.BG, Color3.fromRGB(8, 8, 20))
+bgGradient.Rotation = 135
 
--- ── Header Bar ────────────────────────────────────────
-local HeaderBar = Instance.new("Frame", MainMenu)
-HeaderBar.Name             = "HeaderBar"
-HeaderBar.Size             = UDim2.new(1, 0, 0, 70)
-HeaderBar.BackgroundColor3 = T.BG2
-HeaderBar.BorderSizePixel  = 0
-HeaderBar.ZIndex           = 101
-corner(HeaderBar, 16)
+-- ========== TOP SECTION ==========
+local TopSection = Instance.new("Frame", MainWindow)
+TopSection.Name             = "TopSection"
+TopSection.Size             = UDim2.new(1, 0, 0, 80)
+TopSection.BackgroundColor3 = T.BG2
+TopSection.BorderSizePixel  = 0
+TopSection.ZIndex           = 101
+corner(TopSection, 12)
 
-local headerGrad = Instance.new("UIGradient", HeaderBar)
-headerGrad.Color    = ColorSequence.new(T.BG2, Color3.fromRGB(15, 12, 28))
-headerGrad.Rotation = 90
+local topGrad = Instance.new("UIGradient", TopSection)
+topGrad.Color    = ColorSequence.new(T.BG2, Color3.fromRGB(12, 12, 22))
+topGrad.Rotation = 90
 
-local logoLabel = Instance.new("TextLabel", HeaderBar)
-logoLabel.Name               = "Logo"
-logoLabel.Size               = UDim2.new(0.6, 0, 1, 0)
-logoLabel.Position           = UDim2.new(0, 20, 0, 0)
-logoLabel.BackgroundTransparency = 1
-logoLabel.Text               = "◆  HAR HUB PRO v4.0"
-logoLabel.TextColor3         = T.RED
-logoLabel.Font               = Enum.Font.GothamBold
-logoLabel.TextSize           = 24
-logoLabel.TextXAlignment     = Enum.TextXAlignment.Left
-logoLabel.ZIndex             = 102
+-- Title
+local titleLabel = Instance.new("TextLabel", TopSection)
+titleLabel.Name               = "Title"
+titleLabel.Size               = UDim2.new(0.7, 0, 1, 0)
+titleLabel.Position           = UDim2.new(0, 20, 0, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text               = "► HAR HUB PRO v4.0"
+titleLabel.TextColor3         = T.CYAN
+titleLabel.Font               = Enum.Font.GothamBold
+titleLabel.TextSize           = 28
+titleLabel.TextXAlignment     = Enum.TextXAlignment.Left
+titleLabel.ZIndex             = 102
 
-local versionBadge = Instance.new("Frame", HeaderBar)
-versionBadge.Name             = "VersionBadge"
-versionBadge.Size             = UDim2.new(0, 75, 0, 32)
-versionBadge.Position         = UDim2.new(0, 20, 0.5, -16)
-versionBadge.BackgroundColor3 = T.RED
-versionBadge.BorderSizePixel  = 0
-versionBadge.ZIndex           = 103
-corner(versionBadge, 6)
+-- Version
+local versionLabel = Instance.new("TextLabel", TopSection)
+versionLabel.Name               = "Version"
+versionLabel.Size               = UDim2.new(0.3, 0, 0.4, 0)
+versionLabel.Position           = UDim2.new(0, 20, 0.5, 0)
+versionLabel.BackgroundTransparency = 1
+versionLabel.Text               = "ADVANCED EDITION"
+versionLabel.TextColor3         = T.PURPLE
+versionLabel.Font               = Enum.Font.Gotham
+versionLabel.TextSize           = 11
+versionLabel.TextXAlignment     = Enum.TextXAlignment.Left
+versionLabel.ZIndex             = 102
 
-local versionText = Instance.new("TextLabel", versionBadge)
-versionText.Size               = UDim2.new(1, 0, 1, 0)
-versionText.BackgroundTransparency = 1
-versionText.Text               = "PRO"
-versionText.TextColor3         = T.WHITE
-versionText.Font               = Enum.Font.GothamBold
-versionText.TextSize           = 14
-versionText.ZIndex             = 104
-
-local authorLabel = Instance.new("TextLabel", HeaderBar)
+-- Author
+local authorLabel = Instance.new("TextLabel", TopSection)
 authorLabel.Name               = "Author"
-authorLabel.Size               = UDim2.new(0.4, 0, 1, 0)
-authorLabel.Position           = UDim2.new(0.6, 0, 0, 0)
+authorLabel.Size               = UDim2.new(0.3, 0, 1, 0)
+authorLabel.Position           = UDim2.new(0.7, 0, 0, 0)
 authorLabel.BackgroundTransparency = 1
 authorLabel.Text               = "by Hờ A Rầu"
 authorLabel.TextColor3         = T.DIM
@@ -475,24 +459,26 @@ authorLabel.TextXAlignment     = Enum.TextXAlignment.Right
 authorLabel.TextYAlignment     = Enum.TextYAlignment.Center
 authorLabel.ZIndex             = 102
 
-local minimizeBtn = Instance.new("TextButton", HeaderBar)
+-- Control Buttons
+local minimizeBtn = Instance.new("TextButton", TopSection)
 minimizeBtn.Name             = "MinimizeBtn"
 minimizeBtn.Size             = UDim2.new(0, 40, 0, 40)
 minimizeBtn.Position         = UDim2.new(1, -90, 0.5, -20)
-minimizeBtn.BackgroundColor3 = Color3.fromRGB(60, 80, 120)
+minimizeBtn.BackgroundColor3 = Color3.fromRGB(50, 80, 150)
 minimizeBtn.TextColor3       = T.WHITE
-minimizeBtn.Text             = "−"
+minimizeBtn.Text             = "─"
 minimizeBtn.Font             = Enum.Font.GothamBold
 minimizeBtn.TextSize         = 20
 minimizeBtn.BorderSizePixel  = 0
 minimizeBtn.ZIndex           = 103
 corner(minimizeBtn, 6)
+stroke(minimizeBtn, T.CYAN, 1)
 
-local closeBtn = Instance.new("TextButton", HeaderBar)
+local closeBtn = Instance.new("TextButton", TopSection)
 closeBtn.Name             = "CloseBtn"
 closeBtn.Size             = UDim2.new(0, 40, 0, 40)
 closeBtn.Position         = UDim2.new(1, -40, 0.5, -20)
-closeBtn.BackgroundColor3 = Color3.fromRGB(220, 50, 70)
+closeBtn.BackgroundColor3 = Color3.fromRGB(200, 40, 80)
 closeBtn.TextColor3       = T.WHITE
 closeBtn.Text             = "✕"
 closeBtn.Font             = Enum.Font.GothamBold
@@ -500,41 +486,41 @@ closeBtn.TextSize         = 18
 closeBtn.BorderSizePixel  = 0
 closeBtn.ZIndex           = 103
 corner(closeBtn, 6)
+stroke(closeBtn, T.RED, 1)
 
 closeBtn.MouseButton1Click:Connect(function()
-    MainMenu.Visible = false
+    MainWindow.Visible = false
 end)
 
 minimizeBtn.MouseButton1Click:Connect(function()
-    MainMenu.Size = MainMenu.Size == UDim2.new(0, 720, 0, 480) 
-        and UDim2.new(0, 720, 0, 70) 
-        or UDim2.new(0, 720, 0, 480)
+    local isMinimized = MainWindow.Size == UDim2.new(0, 800, 0, 80)
+    MainWindow.Size = isMinimized and UDim2.new(0, 800, 0, 500) or UDim2.new(0, 800, 0, 80)
 end)
 
--- ── Drag functionality ────────────────────────────────
-makeDraggable(MainMenu, HeaderBar)
+makeDraggable(MainWindow, TopSection)
 
--- ── Tab Navigation Bar ────────────────────────────────
-local TabNavBar = Instance.new("Frame", MainMenu)
-TabNavBar.Name             = "TabNavBar"
-TabNavBar.Size             = UDim2.new(1, 0, 0, 60)
-TabNavBar.Position         = UDim2.new(0, 0, 0, 70)
-TabNavBar.BackgroundColor3 = Color3.fromRGB(12, 12, 20)
-TabNavBar.BorderSizePixel  = 0
-TabNavBar.ZIndex           = 101
+-- ========== NAVIGATION BAR ==========
+local NavBar = Instance.new("Frame", MainWindow)
+NavBar.Name             = "NavBar"
+NavBar.Size             = UDim2.new(1, 0, 0, 50)
+NavBar.Position         = UDim2.new(0, 0, 0, 80)
+NavBar.BackgroundColor3 = Color3.fromRGB(10, 10, 18)
+NavBar.BorderSizePixel  = 0
+NavBar.ZIndex           = 101
+stroke(NavBar, T.PURPLE, 1)
 
-local navLayout = Instance.new("UIListLayout", TabNavBar)
+local navLayout = Instance.new("UIListLayout", NavBar)
 navLayout.FillDirection = Enum.FillDirection.Horizontal
 navLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 navLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-navLayout.Padding = UDim.new(0, 15)
+navLayout.Padding = UDim.new(0, 20)
 
-local navPad = Instance.new("UIPadding", TabNavBar)
+local navPad = Instance.new("UIPadding", NavBar)
 navPad.PaddingLeft = UDim.new(0, 20)
 navPad.PaddingRight = UDim.new(0, 20)
 
--- ── Content Area ──────────────────────────────────────
-local ContentArea = Instance.new("Frame", MainMenu)
+-- ========== CONTENT AREA ==========
+local ContentArea = Instance.new("Frame", MainWindow)
 ContentArea.Name             = "ContentArea"
 ContentArea.Size             = UDim2.new(1, 0, 1, -130)
 ContentArea.Position         = UDim2.new(0, 0, 0, 130)
@@ -542,127 +528,110 @@ ContentArea.BackgroundColor3 = T.BG
 ContentArea.BorderSizePixel  = 0
 ContentArea.ZIndex           = 101
 
--- ── Status Bar ────────────────────────────────────────
-local StatusBar = Instance.new("Frame", MainMenu)
-StatusBar.Name             = "StatusBar"
-StatusBar.Size             = UDim2.new(1, 0, 0, 5)
-StatusBar.Position         = UDim2.new(0, 0, 1, -5)
-StatusBar.BackgroundColor3 = T.RED
-StatusBar.BorderSizePixel  = 0
-StatusBar.ZIndex           = 102
-corner(StatusBar, 2)
+-- ========== BOTTOM STATUS ==========
+local BottomStatus = Instance.new("Frame", MainWindow)
+BottomStatus.Name             = "BottomStatus"
+BottomStatus.Size             = UDim2.new(1, 0, 0, 6)
+BottomStatus.Position         = UDim2.new(0, 0, 1, -6)
+BottomStatus.BackgroundColor3 = T.CYAN
+BottomStatus.BorderSizePixel  = 0
+BottomStatus.ZIndex           = 102
 
 task.spawn(function()
     while true do
-        tw(StatusBar, {BackgroundTransparency=0.6}, 1.5, Enum.EasingStyle.Sine)
+        tw(BottomStatus, {BackgroundColor3 = T.PURPLE}, 1.5, Enum.EasingStyle.Sine)
         task.wait(1.5)
-        tw(StatusBar, {BackgroundTransparency=0}, 1.5, Enum.EasingStyle.Sine)
+        tw(BottomStatus, {BackgroundColor3 = T.CYAN}, 1.5, Enum.EasingStyle.Sine)
         task.wait(1.5)
     end
 end)
 
--- ============================================================
---  11. WIDGET FACTORY (COMPONENTS)
--- ============================================================
-
+-- ========== TAB BUTTON FACTORY ==========
 local function createTabButton(parent, name, icon, callback)
     local btn = Instance.new("TextButton", parent)
-    btn.Name             = name .. "TabBtn"
-    btn.Size             = UDim2.new(0, 140, 0, 50)
+    btn.Name             = name .. "Btn"
+    btn.Size             = UDim2.new(0, 130, 0, 45)
     btn.BackgroundColor3 = T.TAB_OFF
-    btn.TextColor3       = T.DIM
     btn.Text             = ""
     btn.BorderSizePixel  = 0
     btn.ZIndex           = 102
-    corner(btn, 10)
+    corner(btn, 8)
     stroke(btn, T.STROKE, 1)
 
-    local icon_lbl = Instance.new("TextLabel", btn)
-    icon_lbl.Name               = "IconLabel"
-    icon_lbl.Size               = UDim2.new(0, 35, 1, 0)
-    icon_lbl.Position           = UDim2.new(0, 8, 0, 0)
-    icon_lbl.BackgroundTransparency = 1
-    icon_lbl.Text               = icon
-    icon_lbl.TextColor3         = T.DIM
-    icon_lbl.Font               = Enum.Font.GothamBold
-    icon_lbl.TextSize           = 20
-    icon_lbl.ZIndex             = 103
+    local iconLbl = Instance.new("TextLabel", btn)
+    iconLbl.Name               = "Icon"
+    iconLbl.Size               = UDim2.new(0, 35, 1, 0)
+    iconLbl.Position           = UDim2.new(0, 8, 0, 0)
+    iconLbl.BackgroundTransparency = 1
+    iconLbl.Text               = icon
+    iconLbl.TextColor3         = T.DIM
+    iconLbl.Font               = Enum.Font.GothamBold
+    iconLbl.TextSize           = 22
+    iconLbl.ZIndex             = 103
 
-    local text_lbl = Instance.new("TextLabel", btn)
-    text_lbl.Name               = "TextLabel"
-    text_lbl.Size               = UDim2.new(1, -45, 1, 0)
-    text_lbl.Position           = UDim2.new(0, 40, 0, 0)
-    text_lbl.BackgroundTransparency = 1
-    text_lbl.Text               = name
-    text_lbl.TextColor3         = T.DIM
-    text_lbl.Font               = Enum.Font.Gotham
-    text_lbl.TextSize           = 12
-    text_lbl.TextXAlignment     = Enum.TextXAlignment.Left
-    text_lbl.ZIndex             = 103
+    local nameLbl = Instance.new("TextLabel", btn)
+    nameLbl.Name               = "Name"
+    nameLbl.Size               = UDim2.new(1, -45, 1, 0)
+    nameLbl.Position           = UDim2.new(0, 40, 0, 0)
+    nameLbl.BackgroundTransparency = 1
+    nameLbl.Text               = name
+    nameLbl.TextColor3         = T.DIM
+    nameLbl.Font               = Enum.Font.Gotham
+    nameLbl.TextSize           = 11
+    nameLbl.TextXAlignment     = Enum.TextXAlignment.Left
+    nameLbl.ZIndex             = 103
 
     btn.MouseButton1Click:Connect(function()
-        callback(btn, icon_lbl, text_lbl)
+        callback(btn, iconLbl, nameLbl)
     end)
 
     btn.MouseEnter:Connect(function()
-        if MenuSystem.ActiveTab ~= name then
-            tw(btn, {BackgroundColor3 = Color3.fromRGB(40, 40, 65)}, 0.1)
-        end
+        tw(btn, {BackgroundColor3 = Color3.fromRGB(40, 60, 100)}, 0.1)
     end)
 
     btn.MouseLeave:Connect(function()
-        if MenuSystem.ActiveTab ~= name then
+        if btn.BackgroundColor3 ~= T.TAB_ON then
             tw(btn, {BackgroundColor3 = T.TAB_OFF}, 0.1)
         end
     end)
 
-    return btn, icon_lbl, text_lbl
+    return btn, iconLbl, nameLbl
 end
 
+-- ========== WIDGET FACTORY ==========
 local function createSection(parent, title)
     local section = Instance.new("Frame", parent)
-    section.Name             = title .. "_Section"
-    section.Size             = UDim2.new(0.95, 0, 0, 28)
+    section.Name             = title .. "Section"
+    section.Size             = UDim2.new(0.95, 0, 0, 30)
     section.BackgroundTransparency = 1
-    section.BorderSizePixel  = 0
     section.ZIndex           = 102
 
-    local line_left = Instance.new("Frame", section)
-    line_left.Size             = UDim2.new(0, 8, 0, 2)
-    line_left.Position         = UDim2.new(0, 0, 0.5, -1)
-    line_left.BackgroundColor3 = T.RED
-    line_left.BackgroundTransparency = 0.4
-    line_left.BorderSizePixel  = 0
-    line_left.ZIndex           = 103
+    local line = Instance.new("Frame", section)
+    line.Size             = UDim2.new(0, 3, 0, 2)
+    line.Position         = UDim2.new(0, 0, 0.5, -1)
+    line.BackgroundColor3 = T.CYAN
+    line.BorderSizePixel  = 0
+    line.ZIndex           = 103
 
-    local title_lbl = Instance.new("TextLabel", section)
-    title_lbl.Name               = "TitleLabel"
-    title_lbl.Size               = UDim2.new(0.9, 0, 1, 0)
-    title_lbl.Position           = UDim2.new(0.08, 0, 0, 0)
-    title_lbl.BackgroundTransparency = 1
-    title_lbl.Text               = "▸ " .. title
-    title_lbl.TextColor3         = T.RED2
-    title_lbl.Font               = Enum.Font.GothamBold
-    title_lbl.TextSize           = 12
-    title_lbl.TextXAlignment     = Enum.TextXAlignment.Left
-    title_lbl.BorderSizePixel   = 0
-    title_lbl.ZIndex             = 103
-
-    local line_right = Instance.new("Frame", section)
-    line_right.Size             = UDim2.new(0.05, 0, 0, 2)
-    line_right.Position         = UDim2.new(1, -6, 0.5, -1)
-    line_right.BackgroundColor3 = T.RED
-    line_right.BackgroundTransparency = 0.4
-    line_right.BorderSizePixel  = 0
-    line_right.ZIndex           = 103
+    local titleLbl = Instance.new("TextLabel", section)
+    titleLbl.Name               = "Title"
+    titleLbl.Size               = UDim2.new(0.95, 0, 1, 0)
+    titleLbl.Position           = UDim2.new(0.05, 0, 0, 0)
+    titleLbl.BackgroundTransparency = 1
+    titleLbl.Text               = "■ " .. title
+    titleLbl.TextColor3         = T.CYAN
+    titleLbl.Font               = Enum.Font.GothamBold
+    titleLbl.TextSize           = 12
+    titleLbl.TextXAlignment     = Enum.TextXAlignment.Left
+    titleLbl.ZIndex             = 103
 
     return section
 end
 
-local function createToggleSwitch(parent, label_text, enabled_callback)
+local function createToggle(parent, text, callback)
     local container = Instance.new("Frame", parent)
-    container.Name             = label_text .. "_Toggle"
-    container.Size             = UDim2.new(0.95, 0, 0, 44)
+    container.Name             = text .. "Toggle"
+    container.Size             = UDim2.new(0.95, 0, 0, 40)
     container.BackgroundColor3 = T.PANEL
     container.BorderSizePixel  = 0
     container.ZIndex           = 102
@@ -671,77 +640,73 @@ local function createToggleSwitch(parent, label_text, enabled_callback)
 
     local label = Instance.new("TextLabel", container)
     label.Name               = "Label"
-    label.Size               = UDim2.new(1, -66, 1, 0)
+    label.Size               = UDim2.new(1, -60, 1, 0)
     label.Position           = UDim2.new(0, 12, 0, 0)
     label.BackgroundTransparency = 1
-    label.Text               = label_text
+    label.Text               = text
     label.TextColor3         = T.WHITE
     label.Font               = Enum.Font.Gotham
-    label.TextSize           = 13
+    label.TextSize           = 12
     label.TextXAlignment     = Enum.TextXAlignment.Left
-    label.BorderSizePixel   = 0
     label.ZIndex             = 103
 
-    local toggle_bg = Instance.new("Frame", container)
-    toggle_bg.Name             = "ToggleBG"
-    toggle_bg.Size             = UDim2.new(0, 50, 0, 26)
-    toggle_bg.Position         = UDim2.new(1, -58, 0.5, -13)
-    toggle_bg.BackgroundColor3 = T.GRAY
-    toggle_bg.BorderSizePixel  = 0
-    toggle_bg.ZIndex           = 103
-    corner(toggle_bg, 13)
+    local toggleBg = Instance.new("Frame", container)
+    toggleBg.Name             = "BG"
+    toggleBg.Size             = UDim2.new(0, 48, 0, 24)
+    toggleBg.Position         = UDim2.new(1, -56, 0.5, -12)
+    toggleBg.BackgroundColor3 = T.GRAY
+    toggleBg.BorderSizePixel  = 0
+    toggleBg.ZIndex           = 103
+    corner(toggleBg, 12)
 
-    local toggle_knob = Instance.new("Frame", toggle_bg)
-    toggle_knob.Name             = "Knob"
-    toggle_knob.Size             = UDim2.new(0, 20, 0, 20)
-    toggle_knob.Position         = UDim2.new(0, 3, 0.5, -10)
-    toggle_knob.BackgroundColor3 = T.WHITE
-    toggle_knob.BorderSizePixel  = 0
-    toggle_knob.ZIndex           = 104
-    corner(toggle_knob, 10)
+    local toggleKnob = Instance.new("Frame", toggleBg)
+    toggleKnob.Name             = "Knob"
+    toggleKnob.Size             = UDim2.new(0, 18, 0, 18)
+    toggleKnob.Position         = UDim2.new(0, 3, 0.5, -9)
+    toggleKnob.BackgroundColor3 = T.WHITE
+    toggleKnob.BorderSizePixel  = 0
+    toggleKnob.ZIndex           = 104
+    corner(toggleKnob, 9)
 
     local state = false
 
-    local function updateToggle(new_state)
-        state = new_state
-        local target_pos = state and UDim2.new(1, -23, 0.5, -10) or UDim2.new(0, 3, 0.5, -10)
-        local target_bg = state and T.GREEN or T.GRAY
-        tw(toggle_bg, {BackgroundColor3 = target_bg}, 0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-        tw(toggle_knob, {Position = target_pos}, 0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-        enabled_callback(state)
+    local function updateToggle(newState)
+        state = newState
+        local targetPos = state and UDim2.new(1, -21, 0.5, -9) or UDim2.new(0, 3, 0.5, -9)
+        local targetBg = state and T.GREEN or T.GRAY
+        tw(toggleBg, {BackgroundColor3 = targetBg}, 0.2)
+        tw(toggleKnob, {Position = targetPos}, 0.2)
+        callback(state)
     end
 
-    local hit_area = Instance.new("TextButton", container)
-    hit_area.Name               = "HitArea"
-    hit_area.Size               = UDim2.new(1, 0, 1, 0)
-    hit_area.BackgroundTransparency = 1
-    hit_area.Text               = ""
-    hit_area.ZIndex             = 105
+    local hitBtn = Instance.new("TextButton", container)
+    hitBtn.Name               = "Hit"
+    hitBtn.Size               = UDim2.new(1, 0, 1, 0)
+    hitBtn.BackgroundTransparency = 1
+    hitBtn.Text               = ""
+    hitBtn.ZIndex             = 105
 
-    local touch_start = nil
-    hit_area.InputBegan:Connect(function(inp)
+    local touchStart = nil
+    hitBtn.InputBegan:Connect(function(inp)
         if inp.UserInputType == Enum.UserInputType.MouseButton1 or inp.UserInputType == Enum.UserInputType.Touch then
-            touch_start = inp.Position
+            touchStart = inp.Position
         end
     end)
 
-    hit_area.InputEnded:Connect(function(inp)
-        if (inp.UserInputType == Enum.UserInputType.MouseButton1 or inp.UserInputType == Enum.UserInputType.Touch) and touch_start then
-            local dist = (inp.Position - touch_start).Magnitude
-            if dist < 8 then
+    hitBtn.InputEnded:Connect(function(inp)
+        if (inp.UserInputType == Enum.UserInputType.MouseButton1 or inp.UserInputType == Enum.UserInputType.Touch) and touchStart then
+            if (inp.Position - touchStart).Magnitude < 8 then
                 updateToggle(not state)
             end
-            touch_start = nil
+            touchStart = nil
         end
     end)
-
-    return container, toggle_bg, toggle_knob, function() return state end
 end
 
-local function createSliderControl(parent, label_text, min_val, max_val, default_val, value_callback)
+local function createSlider(parent, text, min, max, default, callback)
     local container = Instance.new("Frame", parent)
-    container.Name             = label_text .. "_Slider"
-    container.Size             = UDim2.new(0.95, 0, 0, 60)
+    container.Name             = text .. "Slider"
+    container.Size             = UDim2.new(0.95, 0, 0, 55)
     container.BackgroundColor3 = T.PANEL
     container.BorderSizePixel  = 0
     container.ZIndex           = 102
@@ -750,86 +715,73 @@ local function createSliderControl(parent, label_text, min_val, max_val, default
 
     local label = Instance.new("TextLabel", container)
     label.Name               = "Label"
-    label.Size               = UDim2.new(0.65, 0, 0, 24)
-    label.Position           = UDim2.new(0, 12, 0, 6)
+    label.Size               = UDim2.new(0.65, 0, 0, 20)
+    label.Position           = UDim2.new(0, 12, 0, 5)
     label.BackgroundTransparency = 1
-    label.Text               = label_text
+    label.Text               = text
     label.TextColor3         = T.WHITE
     label.Font               = Enum.Font.Gotham
-    label.TextSize           = 13
-    label.TextXAlignment     = Enum.TextXAlignment.Left
-    label.BorderSizePixel   = 0
+    label.TextSize           = 12
     label.ZIndex             = 103
 
-    local value_display = Instance.new("TextLabel", container)
-    value_display.Name               = "ValueDisplay"
-    value_display.Size               = UDim2.new(0.3, 0, 0, 24)
-    value_display.Position           = UDim2.new(0.65, 6, 0, 6)
-    value_display.BackgroundTransparency = 1
-    value_display.Text               = tostring(default_val)
-    value_display.TextColor3         = T.RED2
-    value_display.Font               = Enum.Font.GothamBold
-    value_display.TextSize           = 13
-    value_display.TextXAlignment     = Enum.TextXAlignment.Right
-    value_display.BorderSizePixel   = 0
-    value_display.ZIndex             = 103
+    local valueLabel = Instance.new("TextLabel", container)
+    valueLabel.Name               = "Value"
+    valueLabel.Size               = UDim2.new(0.3, 0, 0, 20)
+    valueLabel.Position           = UDim2.new(0.65, 5, 0, 5)
+    valueLabel.BackgroundTransparency = 1
+    valueLabel.Text               = tostring(default)
+    valueLabel.TextColor3         = T.CYAN
+    valueLabel.Font               = Enum.Font.GothamBold
+    valueLabel.TextSize           = 12
+    valueLabel.ZIndex             = 103
 
-    local slider_bg = Instance.new("Frame", container)
-    slider_bg.Name             = "SliderBG"
-    slider_bg.Size             = UDim2.new(0.9, 0, 0, 6)
-    slider_bg.Position         = UDim2.new(0.05, 0, 0, 36)
-    slider_bg.BackgroundColor3 = T.GRAY
-    slider_bg.BorderSizePixel  = 0
-    slider_bg.ZIndex           = 103
-    corner(slider_bg, 3)
+    local sliderBg = Instance.new("Frame", container)
+    sliderBg.Name             = "BG"
+    sliderBg.Size             = UDim2.new(0.88, 0, 0, 5)
+    sliderBg.Position         = UDim2.new(0.06, 0, 0, 32)
+    sliderBg.BackgroundColor3 = T.GRAY
+    sliderBg.BorderSizePixel  = 0
+    sliderBg.ZIndex           = 103
+    corner(sliderBg, 2)
 
-    local slider_fill = Instance.new("Frame", slider_bg)
-    slider_fill.Name             = "Fill"
-    slider_fill.Size             = UDim2.new((default_val - min_val) / (max_val - min_val), 0, 1, 0)
-    slider_fill.BackgroundColor3 = T.RED
-    slider_fill.BorderSizePixel  = 0
-    slider_fill.ZIndex           = 104
-    corner(slider_fill, 3)
+    local sliderFill = Instance.new("Frame", sliderBg)
+    sliderFill.Name             = "Fill"
+    sliderFill.Size             = UDim2.new((default - min) / (max - min), 0, 1, 0)
+    sliderFill.BackgroundColor3 = T.CYAN
+    sliderFill.BorderSizePixel  = 0
+    sliderFill.ZIndex           = 104
+    corner(sliderFill, 2)
 
-    local fill_grad = Instance.new("UIGradient", slider_fill)
-    fill_grad.Color    = ColorSequence.new(T.RED, T.RED2)
-    fill_grad.Rotation = 0
+    local sliderThumb = Instance.new("Frame", sliderBg)
+    sliderThumb.Name             = "Thumb"
+    sliderThumb.Size             = UDim2.new(0, 12, 0, 12)
+    sliderThumb.Position         = UDim2.new((default - min) / (max - min), 0, 0.5, -6)
+    sliderThumb.BackgroundColor3 = T.WHITE
+    sliderThumb.BorderSizePixel  = 0
+    sliderThumb.ZIndex           = 105
+    corner(sliderThumb, 6)
 
-    local slider_thumb = Instance.new("Frame", slider_bg)
-    slider_thumb.Name             = "Thumb"
-    slider_thumb.Size             = UDim2.new(0, 14, 0, 14)
-    slider_thumb.Position         = UDim2.new((default_val - min_val) / (max_val - min_val), 0, 0.5, -7)
-    slider_thumb.BackgroundColor3 = T.WHITE
-    slider_thumb.BorderSizePixel  = 0
-    slider_thumb.ZIndex           = 105
-    corner(slider_thumb, 7)
-    stroke(slider_thumb, T.RED, 2)
-
-    local current_value = default_val
     local dragging = false
 
-    local function updateSliderValue(x_pos)
-        local relative_x = x_pos - slider_bg.AbsolutePosition.X
-        local pct = math.clamp(relative_x / slider_bg.AbsoluteSize.X, 0, 1)
-        current_value = math.floor(min_val + (max_val - min_val) * pct)
-        
-        slider_fill.Size = UDim2.new(pct, 0, 1, 0)
-        slider_thumb.Position = UDim2.new(pct, 0, 0.5, -7)
-        value_display.Text = tostring(current_value)
-        
-        value_callback(current_value)
+    local function updateSlider(x)
+        local pct = math.clamp((x - sliderBg.AbsolutePosition.X) / sliderBg.AbsoluteSize.X, 0, 1)
+        local value = math.floor(min + (max - min) * pct)
+        sliderFill.Size = UDim2.new(pct, 0, 1, 0)
+        sliderThumb.Position = UDim2.new(pct, 0, 0.5, -6)
+        valueLabel.Text = tostring(value)
+        callback(value)
     end
 
-    slider_bg.InputBegan:Connect(function(inp)
+    sliderBg.InputBegan:Connect(function(inp)
         if inp.UserInputType == Enum.UserInputType.MouseButton1 or inp.UserInputType == Enum.UserInputType.Touch then
             dragging = true
-            updateSliderValue(inp.Position.X)
+            updateSlider(inp.Position.X)
         end
     end)
 
     UserInputService.InputChanged:Connect(function(inp)
         if dragging and (inp.UserInputType == Enum.UserInputType.MouseMovement or inp.UserInputType == Enum.UserInputType.Touch) then
-            updateSliderValue(inp.Position.X)
+            updateSlider(inp.Position.X)
         end
     end)
 
@@ -838,233 +790,166 @@ local function createSliderControl(parent, label_text, min_val, max_val, default
             dragging = false
         end
     end)
-
-    return container, value_display
 end
 
--- ============================================================
---  12. TAB CONTENT BUILDER
--- ============================================================
+-- ========== TAB CONTENT BUILDER ==========
+local TabContents = {}
 
-local function createTabContent(tab_name, icon)
-    local content_scroll = Instance.new("ScrollingFrame", ContentArea)
-    content_scroll.Name                = tab_name .. "Content"
-    content_scroll.Size                = UDim2.new(1, -10, 1, -10)
-    content_scroll.Position            = UDim2.new(0, 5, 0, 5)
-    content_scroll.BackgroundTransparency = 1
-    content_scroll.ScrollBarThickness  = 4
-    content_scroll.ScrollBarImageColor3 = T.RED
-    content_scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
-    content_scroll.BorderSizePixel     = 0
-    content_scroll.Visible             = false
-    content_scroll.ZIndex              = 102
-    content_scroll.CanvasSize = UDim2.new(1, 0, 0, 0)
+local function createTabContent(name)
+    local scroll = Instance.new("ScrollingFrame", ContentArea)
+    scroll.Name                = name .. "Content"
+    scroll.Size                = UDim2.new(1, -8, 1, -8)
+    scroll.Position            = UDim2.new(0, 4, 0, 4)
+    scroll.BackgroundTransparency = 1
+    scroll.ScrollBarThickness  = 4
+    scroll.ScrollBarImageColor3 = T.CYAN
+    scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    scroll.BorderSizePixel     = 0
+    scroll.Visible             = false
+    scroll.ZIndex              = 102
 
-    local scroll_layout = Instance.new("UIListLayout", content_scroll)
-    scroll_layout.Padding = UDim.new(0, 10)
-    scroll_layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-    scroll_layout.SortOrder = Enum.SortOrder.LayoutOrder
+    local layout = Instance.new("UIListLayout", scroll)
+    layout.Padding = UDim.new(0, 10)
+    layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
-    local scroll_pad = Instance.new("UIPadding", content_scroll)
-    scroll_pad.PaddingLeft = UDim.new(0, 10)
-    scroll_pad.PaddingRight = UDim.new(0, 10)
-    scroll_pad.PaddingTop = UDim.new(0, 10)
-    scroll_pad.PaddingBottom = UDim.new(0, 10)
+    local pad = Instance.new("UIPadding", scroll)
+    pad.PaddingLeft = UDim.new(0, 8)
+    pad.PaddingRight = UDim.new(0, 8)
+    pad.PaddingTop = UDim.new(0, 8)
+    pad.PaddingBottom = UDim.new(0, 8)
 
-    return content_scroll
+    TabContents[name] = scroll
+    return scroll
 end
 
--- ============================================================
---  13. BUILD TABS
--- ============================================================
+-- ========== BUILD TABS ==========
+local TabMain = createTabContent("Main")
+local TabPvP = createTabContent("PvP")
+local TabSetting = createTabContent("Setting")
 
--- Tab: MAIN
-local TabMain = createTabContent("Main", "🏠")
-MenuSystem.Tabs["Main"] = { Content = TabMain, Icon = "🏠" }
+local tabs = {
+    {Name = "Main", Icon = "🏠", Content = TabMain},
+    {Name = "PvP", Icon = "⚔️", Content = TabPvP},
+    {Name = "Setting", Icon = "⚙️", Content = TabSetting}
+}
 
--- Tab: PvP
-local TabPvP = createTabContent("PvP", "⚔️")
-MenuSystem.Tabs["PvP"] = { Content = TabPvP, Icon = "⚔️" }
+local activeTab = nil
+local tabButtons = {}
 
--- Tab: SETTING
-local TabSetting = createTabContent("Setting", "⚙️")
-MenuSystem.Tabs["Setting"] = { Content = TabSetting, Icon = "⚙️" }
+for _, tab in ipairs(tabs) do
+    local btn, icon, name = createTabButton(NavBar, tab.Name, tab.Icon, function(btn, ic, nm)
+        -- Reset all
+        for _, b in pairs(tabButtons) do
+            tw(b.btn, {BackgroundColor3 = T.TAB_OFF}, 0.15)
+            b.icon.TextColor3 = T.DIM
+            b.name.TextColor3 = T.DIM
+        end
+        for _, content in pairs(TabContents) do
+            content.Visible = false
+        end
 
--- ── TAB: MAIN ──────────────────────────────────────────
+        -- Activate
+        tw(btn, {BackgroundColor3 = T.TAB_ON}, 0.15)
+        ic.TextColor3 = T.WHITE
+        nm.TextColor3 = T.WHITE
+        tab.Content.Visible = true
+        activeTab = tab.Name
+    end)
+
+    tabButtons[tab.Name] = {btn = btn, icon = icon, name = name}
+end
+
+-- ========== TAB: MAIN ==========
 createSection(TabMain, "UTILITY")
-createToggleSwitch(TabMain, "Infinite Jump", function(state) _G.InfiniteJumpEnabled = state end)
+createToggle(TabMain, "Infinite Jump", function(s) _G.InfiniteJumpEnabled = s end)
 
 createSection(TabMain, "FRUIT SYSTEM")
-createToggleSwitch(TabMain, "Fruit ESP (Enable)", function(state) _G.FruitESPEnabled = state end)
-createToggleSwitch(TabMain, "Fruit Auto Tween", function(state)
-    _G.FruitTweenEnabled = state
-    if not state and curFruitTween then
+createToggle(TabMain, "Fruit ESP", function(s) _G.FruitESPEnabled = s end)
+createToggle(TabMain, "Auto Collect", function(s)
+    _G.FruitTweenEnabled = s
+    if not s and curFruitTween then
         curFruitTween:Cancel()
         curFruitTween = nil
         tweenTarget = nil
     end
 end)
-createSliderControl(TabMain, "Tween Speed", 50, 500, 120, function(val) _G.FruitTweenSpeed = val end)
+createSlider(TabMain, "Collection Speed", 50, 500, 120, function(v) _G.FruitTweenSpeed = v end)
 
--- ── TAB: PvP ───────────────────────────────────────────
+-- ========== TAB: PVP ==========
 createSection(TabPvP, "MOVEMENT")
-createSliderControl(TabPvP, "Walk Speed", 16, 500, 130, function(val) _G.SpeedValue = val end)
-createToggleSwitch(TabPvP, "Enable Speed", function(state) _G.SpeedEnabled = state end)
-
-createSliderControl(TabPvP, "Jump Power", 50, 500, 130, function(val) _G.JumpPowerValue = val end)
-createToggleSwitch(TabPvP, "Enable High Jump", function(state) _G.JumpEnabled = state end)
-
-createSliderControl(TabPvP, "Dash Distance", 1, 20, 4, function(val) _G.DashDist = val end)
-createToggleSwitch(TabPvP, "Enable Dash", function(state) _G.DashEnabled = state end)
+createSlider(TabPvP, "Walk Speed", 16, 500, 130, function(v) _G.SpeedValue = v end)
+createToggle(TabPvP, "Speed Enabled", function(s) _G.SpeedEnabled = s end)
+createSlider(TabPvP, "Jump Power", 50, 500, 130, function(v) _G.JumpPowerValue = v end)
+createToggle(TabPvP, "Jump Enabled", function(s) _G.JumpEnabled = s end)
+createSlider(TabPvP, "Dash Distance", 1, 20, 4, function(v) _G.DashDist = v end)
+createToggle(TabPvP, "Dash Enabled", function(s) _G.DashEnabled = s end)
 
 createSection(TabPvP, "COMBAT")
-createSliderControl(TabPvP, "Hitbox Size", 5, 100, 5, function(val) _G.HitboxSize = val end)
-createToggleSwitch(TabPvP, "Enable Hitbox", function(state)
-    _G.HitboxEnabled = state
-    if not state then resetHitbox() end
+createSlider(TabPvP, "Hitbox Size", 5, 100, 5, function(v) _G.HitboxSize = v end)
+createToggle(TabPvP, "Hitbox Enabled", function(s)
+    _G.HitboxEnabled = s
+    if not s then resetHitbox() end
 end)
-
-createToggleSwitch(TabPvP, "Player ESP", function(state)
-    _G.ESPEnabled = state
-    if state then
+createToggle(TabPvP, "Player ESP", function(s)
+    _G.ESPEnabled = s
+    if s then
         for _, p in pairs(Players:GetPlayers()) do createDot(p) end
     else
         for _, p in pairs(Players:GetPlayers()) do removeDot(p) end
     end
 end)
+createToggle(TabPvP, "Auto Teleport", function(s) _G.AutoTeleEnabled = s end)
 
-createToggleSwitch(TabPvP, "Auto Teleport", function(state) _G.AutoTeleEnabled = state end)
-
--- ── TAB: SETTING ───────────────────────────────────────
+-- ========== TAB: SETTING ==========
 createSection(TabSetting, "DISPLAY")
-createToggleSwitch(TabSetting, "Wide FOV (95°)", function(state) 
-    camera.FieldOfView = state and 95 or 70 
-end)
+createToggle(TabSetting, "Wide FOV (95°)", function(s) camera.FieldOfView = s and 95 or 70 end)
 
 createSection(TabSetting, "SERVER")
-createToggleSwitch(TabSetting, "Rejoin Server", function()
+createToggle(TabSetting, "Rejoin Server", function()
     TeleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId, LocalPlayer)
 end)
 
--- ============================================================
---  14. TAB SWITCHING SYSTEM
--- ============================================================
-
-local function switchToTab(tab_name, btn, icon_lbl, text_lbl)
-    -- Hide all tabs
-    for name, tab_data in pairs(MenuSystem.Tabs) do
-        if tab_data.Content then
-            tab_data.Content.Visible = false
-        end
-    end
-
-    -- Reset all buttons
-    for btn_name, btn_child in ipairs(TabNavBar:GetChildren()) do
-        if btn_child:IsA("TextButton") and btn_child.Name:find("TabBtn") then
-            local ic = btn_child:FindFirstChild("IconLabel")
-            local txt = btn_child:FindFirstChild("TextLabel")
-            tw(btn_child, {BackgroundColor3 = T.TAB_OFF}, 0.15)
-            if ic then ic.TextColor3 = T.DIM end
-            if txt then txt.TextColor3 = T.DIM end
-        end
-    end
-
-    -- Activate selected tab
-    if MenuSystem.Tabs[tab_name] and MenuSystem.Tabs[tab_name].Content then
-        MenuSystem.Tabs[tab_name].Content.Visible = true
-        tw(btn, {BackgroundColor3 = T.TAB_ON}, 0.15)
-        icon_lbl.TextColor3 = T.WHITE
-        text_lbl.TextColor3 = T.WHITE
-        MenuSystem.ActiveTab = tab_name
-    end
+-- Activate Main tab
+local mainBtn = tabButtons["Main"]
+if mainBtn then
+    tw(mainBtn.btn, {BackgroundColor3 = T.TAB_ON}, 0)
+    mainBtn.icon.TextColor3 = T.WHITE
+    mainBtn.name.TextColor3 = T.WHITE
+    TabMain.Visible = true
+    activeTab = "Main"
 end
 
--- Create tab buttons
-for tab_name, tab_data in pairs(MenuSystem.Tabs) do
-    local btn, icon_lbl, text_lbl = createTabButton(TabNavBar, tab_name, tab_data.Icon, function(b, i, t)
-        switchToTab(tab_name, b, i, t)
-    end)
-end
+-- ========== MINI TOGGLE ==========
+local MiniBtn = Instance.new("Frame", gui)
+MiniBtn.Name             = "MiniToggle"
+MiniBtn.Size             = UDim2.new(0, 65, 0, 65)
+MiniBtn.Position         = UDim2.new(0, 15, 0.5, -32)
+MiniBtn.BackgroundColor3 = T.BG
+MiniBtn.BorderSizePixel  = 0
+MiniBtn.ZIndex           = 50
+corner(MiniBtn, 12)
+stroke(MiniBtn, T.CYAN, 2)
 
--- Activate Main tab by default
-local main_btn = TabNavBar:FindFirstChild("MainTabBtn")
-if main_btn then
-    local ic = main_btn:FindFirstChild("IconLabel")
-    local txt = main_btn:FindFirstChild("TextLabel")
-    switchToTab("Main", main_btn, ic, txt)
-end
+local miniText = Instance.new("TextLabel", MiniBtn)
+miniText.Size               = UDim2.new(1, 0, 1, 0)
+miniText.BackgroundTransparency = 1
+miniText.Text               = "◆\nHAR"
+miniText.TextColor3         = T.CYAN
+miniText.Font               = Enum.Font.GothamBold
+miniText.TextSize           = 16
+miniText.TextXAlignment     = Enum.TextXAlignment.Center
+miniText.ZIndex             = 51
 
--- ============================================================
---  15. MINI TOGGLE BUTTON
--- ============================================================
+local miniHit = Instance.new("TextButton", MiniBtn)
+miniHit.Size               = UDim2.new(1, 0, 1, 0)
+miniHit.BackgroundTransparency = 1
+miniHit.Text               = ""
+miniHit.ZIndex             = 52
 
-local MiniToggle = Instance.new("Frame", gui)
-MiniToggle.Name             = "MiniToggle"
-MiniToggle.Size             = UDim2.new(0, 70, 0, 70)
-MiniToggle.Position         = UDim2.new(0, 20, 0.5, -35)
-MiniToggle.BackgroundColor3 = T.BG
-MiniToggle.BorderSizePixel  = 0
-MiniToggle.ZIndex           = 50
-corner(MiniToggle, 16)
-stroke(MiniToggle, T.RED, 2)
-
-local mini_logo = Instance.new("TextLabel", MiniToggle)
-mini_logo.Name               = "Logo"
-mini_logo.Size               = UDim2.new(1, 0, 0.5, 0)
-mini_logo.Position           = UDim2.new(0, 0, 0, 8)
-mini_logo.BackgroundTransparency = 1
-mini_logo.Text               = "◆ HAR"
-mini_logo.TextColor3         = T.RED
-mini_logo.Font               = Enum.Font.GothamBold
-mini_logo.TextSize           = 14
-mini_logo.TextXAlignment     = Enum.TextXAlignment.Center
-mini_logo.ZIndex             = 51
-
-local mini_subtitle = Instance.new("TextLabel", MiniToggle)
-mini_subtitle.Name               = "Subtitle"
-mini_subtitle.Size               = UDim2.new(1, 0, 0.5, 0)
-mini_subtitle.Position           = UDim2.new(0, 0, 0.5, 0)
-mini_subtitle.BackgroundTransparency = 1
-mini_subtitle.Text               = "HUB"
-mini_subtitle.TextColor3         = T.DIM
-mini_subtitle.Font               = Enum.Font.Gotham
-mini_subtitle.TextSize           = 11
-mini_subtitle.ZIndex             = 51
-
-local mini_status = Instance.new("Frame", MiniToggle)
-mini_status.Name             = "StatusDot"
-mini_status.Size             = UDim2.new(0, 10, 0, 10)
-mini_status.Position         = UDim2.new(1, -15, 0, 8)
-mini_status.BackgroundColor3 = T.GREEN
-mini_status.BorderSizePixel  = 0
-mini_status.ZIndex           = 52
-corner(mini_status, 5)
-
-local mini_btn = Instance.new("TextButton", MiniToggle)
-mini_btn.Name               = "Button"
-mini_btn.Size               = UDim2.new(1, 0, 1, 0)
-mini_btn.BackgroundTransparency = 1
-mini_btn.Text               = ""
-mini_btn.ZIndex             = 53
-
-mini_btn.MouseButton1Click:Connect(function()
-    MainMenu.Visible = not MainMenu.Visible
+miniHit.MouseButton1Click:Connect(function()
+    MainWindow.Visible = not MainWindow.Visible
 end)
 
--- Animate status dot
-task.spawn(function()
-    while true do
-        for i = 1, 20 do
-            mini_status.BackgroundTransparency = 0.3 + (i / 20) * 0.5
-            task.wait(0.05)
-        end
-        for i = 1, 20 do
-            mini_status.BackgroundTransparency = 0.8 - (i / 20) * 0.5
-            task.wait(0.05)
-        end
-    end
-end)
+makeDraggable(MiniBtn, miniHit)
 
-makeDraggable(MiniToggle, mini_btn)
-
-print("✓ HAR Hub PRO v4.0 Professional Menu Loaded!")
+print("✓ HAR Hub PRO v4.0 ADVANCED EDITION Loaded Successfully!")
